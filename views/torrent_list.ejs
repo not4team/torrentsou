@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>
+        <%=keyword%> Magnet Link - Magnet Search</title>
+    <meta name="keywords" content="cili, cililian, cilisousuo, magnet, search, btgo, <%=keyword%>">
+    <meta name="viewport" content="width=device-width">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link type="text/css" rel="stylesheet" href="/stylesheets/list.css">
+    <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript">
+        
+    </script>
+</head>
+
+<body>
+    <div id="wrapper">
+        <%include header.ejs %>
+            <div class="header-div">
+                <form class="search-form" action="<%= base_url%>/q" method="get">
+                    <a href="<%= base_url%>" title="Magnet Search">
+                    <img src="/images/logo.png" alt="Magnet Search" class="nav-logo">
+                </a>
+                    <input type="text" id="search" title="Search" value="<%= keyword %>" autocomplete="off" name="keyword">
+                    <input type="submit" id="btnSearch" value="Search" class="blue">
+                </form>
+            </div>
+
+            <div id="sort-bar">
+                <b>Create Time</b>
+                <a href="">File Size</a>
+                <a href="">Hot</a>
+                <a href="">Relevance</a>
+            </div>
+
+            <div id="content">
+                <div id="wall">
+
+                    <div class="search-statu">
+                        <span>About <%=totalRows%> results in 1 milliseconds.</span>
+                    </div>
+                    <% torrents.forEach(function(item){%>
+                        <div class="search-item">
+                            <div class="item-title">
+                                <h3>
+                                    <a href="<%= locals.base_url %>/d/<%= item.id %>?kw=<%=keyword%>" target="_blank">
+                                        <%  var index = item.name.toLowerCase().indexOf(keyword.toLowerCase());
+                                            var left = item.name.substring(0,index);
+                                            var right = item.name.substring(index + keyword.length)
+                                            var mid = item.name.substring(index,index + keyword.length);
+                                        %>
+                                        <%= left %><b><%= mid%></b><%= right %>
+                                    </a>
+                                </h3>
+                            </div>
+                            <div class="item-list">
+                                <ul>
+                                    <%  var files = JSON.parse(item.files);
+                                        if(files != null)
+                                            for(var i=0;i<files.length;i++){  
+                                                var file = files[i];
+                                    %>
+                                        <li>
+                                            <%= file.name %><span class="lightColor"><%= Math.round(file.size/1024/1024) %> MB</span>
+                                        </li>
+                                    <% } %>
+                                </ul>
+                            </div>
+                            <div class="item-bar">
+                                <span class="cpill fileType1"><%= item.type %></span>
+                                <span>Create Time：<b><%= item.create_date %></b></span>
+                                <span>File Size：<b><%= Math.round(item.size/1024/1024) %> MB</b></span>
+                                <span>Hot：<b><%= item.hot %></b></span>
+                                <!--<span>Last Download：<b>1 month ago</b></span>-->
+                            </div>
+                        </div>
+                    <% }) %>
+                        <!-- 分页-->
+                        <div class="bottom-pager">
+                            <% if(currentPage > 1) {%>
+                                <a href="<%=base_url%>/q?keyword=<%=keyword%>&page=<%=currentPage-1%>"> &lt; </a>
+                            <% }%>
+                            <%  var start,end;
+                                if(currentPage < 7) {
+                                    start = 1;
+                                } else {
+                                    start = currentPage - 5;
+                                }
+                                end = start + 10;
+                                if(end > totalPageCount)
+                                    end = totalPageCount;
+                                for(var i = start; i <= end; i++) {%>
+                                    <% if(currentPage == i) {%>
+                                        <span><%= i%></span>
+                                    <%} else {%>
+                                        <a href="<%=base_url%>/q?keyword=<%=keyword%>&page=<%=i%>"><%= i%></a>
+                                    <%}%>
+                                <% }%>
+                            <% if(currentPage < totalPageCount) {%>
+                                <a href="<%=base_url%>/q?keyword=<%=keyword%>&page=<%=currentPage+1%>"> &gt; </a>
+                            <% }%>
+                        </div>
+
+                        <div class="push">
+                        </div>
+                </div>
+            </div>
+    </div>
+
+    <%include footer.ejs%>
+</body>
+<!-- 百度搜索框提示 -->
+<script charset="gbk" type="text/javascript" src="//www.baidu.com/js/opensug.js"></script>
+<script type="text/javascript">
+    var params = { "XOffset": 0, "YOffset": 0, "fontColor": "#444", "fontColorHI": "#000", "fontSize": "16px", "fontFamily": "arial", "borderColor": "gray", "bgcolorHI": "#ebebeb", "sugSubmit": false };
+    BaiduSuggestion.bind("search", params);
+</script>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>
+        <%= keyword %> - Magnet Search</title>
+    <meta name="keywords" content="cili, cililian, cilisousuo, magnet, search, btgo, <%= keyword %>">
+    <meta name="viewport" content="width=device-width">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link type="text/css" rel="stylesheet" href="/stylesheets/detail.css">
+    <!-- <script type="text/javascript" src="/js/webtorrent.min.js"></script>
+    <script type="text/javascript">
+        function downloadTorrent(id) {
+            var client = new WebTorrent();
+            console.log("id:" + id);
+            var magnet = "http://video.shixq.com/torrents/" + id + ".torrent";
+            client.add(magnet, function (torrent) {
+                // Torrents can contain many files. Let's use the .mp4 file
+                var file = torrent.files.find(function (file) {
+                    console.log("filename:" + file.name);
+                    return file.name.endsWith('.mp4');
+                });
+
+                // Display the file by adding it to the DOM.
+                // Supports video, audio, image files, and more!
+                file.appendTo('#video');
+            });
+        }
+    </script> -->
+</head>
+
+<body>
+    <div id="wrapper">
+        <%include header.ejs %>
+            <div class="header-div">
+                <form class="search-form" action="<%=base_url%>/q" method="get">
+                    <a href="<%=base_url%>" title="Magnet Search">
+                    <img src="/images/logo.png" alt="Magnet Search" class="nav-logo">
+                </a>
+                    <input type="text" id="search" title="Search" value="<%= keyword%>" autocomplete="off" name="keyword">
+                    <input type="submit" id="btnSearch" value="Search" class="blue">
+                </form>
+            </div>
+
+            <div id="content">
+                <div id="wall">
+
+                    <h2>
+                        <%= name%>
+                    </h2>
+                    <div class="fileDetail">
+                        <table class="detail-table detail-width">
+                            <tbody>
+                                <tr class="detail-header-bg">
+                                    <th>
+                                        File Type
+                                    </th>
+                                    <th>
+                                        Create Time
+                                    </th>
+                                    <th>
+                                        Hot
+                                    </th>
+                                    <th>
+                                        File Size
+                                    </th>
+                                    <th>
+                                        File Count
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <%= type%>
+                                    </td>
+                                    <td>
+                                        <%= createDate%>
+                                    </td>
+                                    <td>
+                                        <%= hot%>
+                                    </td>
+                                    <td>
+                                        <%= Math.round(size/1024/1024)%>MB
+                                    </td>
+                                    <% var list = JSON.parse(files); %>
+                                        <td>
+                                            <%= list.length%>
+                                        </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="detail-panel detail-width">
+                            <div class="panel-header">
+                                Magnet Link
+                            </div>
+                            <div class="panel-body">
+                                <a href="<%= magnet%>">
+                                    <%= magnet%>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="detail-panel detail-width">
+                            <div class="panel-header">
+                                Related Links
+                            </div>
+                            <div class="panel-body">
+                                <p>
+                                    <%  for(var i=0;i<fenci.length;i++){
+                                        %>
+                                        <a href="<%=base_url%>/q?keyword=<%= fenci[i].w %>" target="_blank" class="pill">
+                                            <%= fenci[i].w %>
+                                        </a>
+                                        <% } %>
+                                </p>
+
+                            </div>
+                        </div>
+                        <div class="detail-panel detail-width">
+                            <div class="panel-header">
+                                File List
+                            </div>
+                            <div class="panel-body">
+                                <ol>
+                                    <%  var list = JSON.parse(files);
+                                        for(var i=0;i<list.length;i++){  
+                                            var file = list[i];
+                                    %>
+                                        <li>
+                                            <%= file.name%>
+                                                <span class="cpill blue-pill"><%=  Math.round(file.size/1024/1024)%> MB</span>
+                                        </li>
+                                        <% } %>
+                                </ol>
+                            </div>
+                        </div>
+                        <div class="detail-panel detail-width">
+                            <div class="panel-header">
+                                Tips
+                            </div>
+                            <div class="panel-body">
+                                <p>
+                                    <a href="<%=base_url%>/play/<%=id%>?name=<%= name%>" target="_blank">try play</a>
+                                </p>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="video">
+                    </div>
+
+                    <div class="push">
+                    </div>
+                </div>
+            </div>
+    </div>
+
+    <%include footer.ejs %>
+</body>
+<!-- 百度搜索框提示 -->
+<script charset="gbk" type="text/javascript" src="//www.baidu.com/js/opensug.js"></script>
+<script type="text/javascript">
+    var params = { "XOffset": 0, "YOffset": 0, "fontColor": "#444", "fontColorHI": "#000", "fontSize": "16px", "fontFamily": "arial", "borderColor": "gray", "bgcolorHI": "#ebebeb", "sugSubmit": false };
+    BaiduSuggestion.bind("search", params);
+</script>
+</html>

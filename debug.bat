@@ -1,0 +1,1 @@
+SET DEBUG=torrentsou:* & npm start

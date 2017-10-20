@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>BTGO - Magnet Search</title>
+    <meta name="keywords" content="cili, cililian, cilisousuo, magnet, search, btgo, 种子搜索神器,种子搜索,磁力搜索,磁力链接,BT资源搜索,迅雷搜索,BT搜索,磁力搜,资源搜索,电影搜索,DHT搜索">
+    <meta name="description" content="oyigo.com, a simple DHT research website. BT磁力搜索引擎,每天更新，搜索速度快,网站索引数千万的BT种子、磁力链接">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link type="text/css" rel="stylesheet" href="/stylesheets/index.css">
+    <link rel="apple-touch-icon" href="">
+</head>
+
+<body>
+    <div id="wrapper">
+        <%include header.ejs%>
+            <div id="first-content">
+                <div id="center-box-wrapper">
+                    <div id="center-box">
+                        <div id="center-logo">
+                            <a href="<%=base_url%>"><img src="/images/logo.png" alt="Magnet Search"></a>
+                        </div>
+                        <div id="search-box">
+                            <form id="search-form" action="<%= base_url %>/q" method="get">
+                                <input type="text" id="search" name="keyword" autocomplete="off" placeholder="Search anything you want...">
+                                <input type="submit" id="btnSearch" value="Search" class="blue">
+                            </form>
+                            <div class="info-box">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="push">
+            </div>
+    </div>
+    <!-- GoStats JavaScript Based Code -->
+    <script type="text/javascript" src="http://gostats.cn/js/counter.js"></script>
+    <script type="text/javascript">_gos='monster.gostats.cn';_goa=495259;
+    _got=5;_goi=1;_gol='网络流量统计';_GoStatsRun();</script>
+    <noscript><a target="_blank" title="网络流量统计" 
+    href="http://gostats.cn"><img alt="网络流量统计" 
+    src="http://monster.gostats.cn/bin/count/a_495259/t_5/i_1/counter.png" 
+    style="border-width:0" /></a></noscript>
+    <!-- End GoStats JavaScript Based Code -->
+    <%include footer.ejs%>
+</body>
+<!-- 百度搜索框提示 -->
+<script charset="gbk" type="text/javascript" src="//www.baidu.com/js/opensug.js"></script>
+<script type="text/javascript">
+    var params = { "XOffset": 0, "YOffset": 0, "fontColor": "#444", "fontColorHI": "#000", "fontSize": "16px", "fontFamily": "arial", "borderColor": "gray", "bgcolorHI": "#ebebeb", "sugSubmit": false };
+    BaiduSuggestion.bind("search", params);
+</script>
+</html>
