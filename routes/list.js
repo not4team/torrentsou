@@ -2,6 +2,7 @@ var express = require('express');
 var db = require('../db/mysql');
 var router = express.Router();
 var pinyin = require("pinyin");
+var device = require("../util/device");
 
 /* GET torrent listing. */
 router.get('/', function (req, res, next) {
@@ -23,8 +24,9 @@ router.get('/', function (req, res, next) {
       if (err) {
         return console.error(err);
       }
-      // console.log("total result:" + rows[0].count);
-      res.render('torrent_list', { keyword: _keyword, currentPage: page, totalRows: rows[0].count, totalPageCount: Math.ceil(rows[0].count / pageCount), torrents: result });
+      var _isMobile = device.isMobile(req);
+      // console.log("isMobile:" + _isMobile);
+      res.render('torrent_list', { keyword: _keyword, isMobile: _isMobile, currentPage: page, totalRows: rows[0].count, totalPageCount: Math.ceil(rows[0].count / pageCount), torrents: result });
     });
   });
 

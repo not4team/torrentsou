@@ -9,9 +9,11 @@
     <meta name="viewport" content="width=device-width">
     <link rel="shortcut icon" href="/favicon.ico">
     <link type="text/css" rel="stylesheet" href="/stylesheets/list.css">
-    <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="/js/device.js"></script>
     <script type="text/javascript">
-        
+        function pageSelected(value) {
+            window.location.href = "<%= base_url%>/q?keyword=<%= keyword%>&page=" + value;
+        }
     </script>
 </head>
 
@@ -79,28 +81,48 @@
                     <% }) %>
                         <!-- 分页-->
                         <div class="bottom-pager">
-                            <% if(currentPage > 1) {%>
-                                <a href="<%=base_url%>/q?keyword=<%=keyword%>&page=<%=currentPage-1%>"> &lt; </a>
-                            <% }%>
-                            <%  var start,end;
-                                if(currentPage < 7) {
-                                    start = 1;
-                                } else {
-                                    start = currentPage - 5;
-                                }
-                                end = start + 10;
-                                if(end > totalPageCount)
-                                    end = totalPageCount;
-                                for(var i = start; i <= end; i++) {%>
-                                    <% if(currentPage == i) {%>
-                                        <span><%= i%></span>
-                                    <%} else {%>
-                                        <a href="<%=base_url%>/q?keyword=<%=keyword%>&page=<%=i%>"><%= i%></a>
-                                    <%}%>
+                            <% if(currentPage > 1) {
+                                var pre = parseInt(currentPage) - 1
+                                if(!isMobile) {%>
+                                <a href="<%=base_url%>/q?keyword=<%=keyword%>&page=<%=pre%>"> &lt; </a>
+                                <% } else {%>
+                                <a href="<%=base_url%>/q?keyword=<%=keyword%>&page=<%=pre%>"> 上一页 </a>
+                            <% }}%>
+                            <%  
+                                if(!isMobile) {
+                                    var start,end;
+                                    if(currentPage < 7) {
+                                        start = 1;
+                                    } else {
+                                        start = currentPage - 5;
+                                    }
+                                    end = start + 10;
+                                    if(end > totalPageCount)
+                                        end = totalPageCount;
+                                    for(var i = start; i <= end; i++) {%>
+                                        <% if(currentPage == i) {%>
+                                            <span><%= i%></span>
+                                        <%} else {%>
+                                            <a href="<%=base_url%>/q?keyword=<%=keyword%>&page=<%=i%>"><%= i%></a>
+                                        <%}%>
+                                <% }} else {%>
+                                    <select onchange="pageSelected(this.value)">
+                                        <% for(var i = 1; i <= totalPageCount; i++) {
+                                            if(i == currentPage) {
+                                        %>
+                                            <option value="<%= i%>" selected="selected"><%= i%> / <%= totalPageCount%></option>
+                                        <% } else {%>
+                                            <option value="<%= i%>"><%= i%> / <%= totalPageCount%></option>
+                                        <% }}%>
+                                    </select>
                                 <% }%>
-                            <% if(currentPage < totalPageCount) {%>
-                                <a href="<%=base_url%>/q?keyword=<%=keyword%>&page=<%=currentPage+1%>"> &gt; </a>
-                            <% }%>
+                            <% if(currentPage < totalPageCount) {
+                                var next = parseInt(currentPage) + 1
+                                if(!isMobile) {%>
+                                <a href="<%=base_url%>/q?keyword=<%=keyword%>&page=<%=next%>"> &gt; </a>
+                                <% } else { %>
+                                <a href="<%=base_url%>/q?keyword=<%=keyword%>&page=<%=next%>"> 下一页 </a>
+                            <% }}%>
                         </div>
 
                         <div class="push">

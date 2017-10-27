@@ -469,6 +469,13 @@ button.blue, a.blue, input[type=submit].blue {
         color: #1e0fbe;
     }
 
+    .bottom-pager select {
+        color: #1e0fbe;
+        border: 1px solid #A1A2A3;
+        margin: 2px;
+        padding: 8px 12px;
+    }
+
 .new {
     display: inline-block;
     padding: 2px;
